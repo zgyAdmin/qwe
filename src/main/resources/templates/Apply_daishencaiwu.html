@@ -1,0 +1,106 @@
+<!-- saved from url=(0061)http://169.254.158.100/zzdl/ContApply/Apply_list.asp?p_type=3 -->
+<HTML><HEAD><TITLE>待审批合同申请一览表</TITLE>
+</HEAD>
+<meta charset="UTF-8">
+<script src="../jquery-easyui-1.5.1/jquery.min.js" charset="utf-8"></script>
+<!-- easyui依赖的js -->
+<script src="../jquery-easyui-1.5.1/jquery.easyui.min.js" charset="utf-8"></script>
+<!--引用对应的语言包 -->
+<script src="../jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+<!-- 引用图标样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/icon.css">
+<!-- 引用默认的样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/default/easyui.css">
+<script type="text/javascript">
+$(function(){
+	//初始化数据表格
+	$("#tt").datagrid({
+		 columns:[
+			 [
+				 {
+					 title:'操作',
+					 width:50,
+					 field:'cz',
+					 formatter: function (value, row, index) {
+						return '<input type="radio" name="radio"/>' 
+                    }
+				 },
+				 {
+					 title:'序号',
+					 field:'stock_id',
+					 width:100,
+					 align:'center'
+				 },
+				 {
+					 title:'采购计划名称',
+					 field:'stock_name',
+					 width:300,
+					 align:'center'
+				 },
+				 {
+					 title:'状态',
+					 field:'status',
+					 width:300,
+					 align:'center',
+					 formatter:function(val,row,index){
+							 return "<font color='blue'>待审<font>";
+					 }
+				 }
+				 ,
+				 {
+					 title:'报价总金额',
+					 field:'bugget',
+					 width:300,
+					 align:'center'
+				 }
+				 ,
+				 {
+					 title:'揭示时间',
+					 field:'submit_date',
+					 width:234,
+					 align:'center',
+					 formatter:function(val,row,index){
+						 if(val!=null){
+							 return val.substr(0,10);
+						 }
+						return "";
+					 }
+				 },
+				 {
+					 title:'对应询价书',
+					 field:'enquire_name',
+					 width:354,
+					 align:'center'
+				 }
+			 ]
+		 ],
+		 url:'/findByIdStock',
+		 method:'get',
+		 queryParams: {
+				status: 'C001-40'
+			},
+		 pagination:true,//分页工具
+		 pageSize:4,//页面显示几条
+		 pageNumber:1,//显示第一页
+		 pageList:[2,4,6,8]
+	 });
+	$(function(){
+		$("#t1").click(function(){
+			var row = $('#tt').datagrid('getSelected');
+			if (row){
+				$(location).attr("href","/jumps?id="+row.stock_id);
+			}
+		})
+	})
+})
+</script>
+<BODY>
+	<div id="d1">
+		<table id="tt" class="easyui-datagrid" style="width:1180px;height:auto"
+        title="合同申请一览表" data-options="fitColumns:true,singleSelect:true">
+	</table>
+	<center><P align=center><input type="button" value="打开" onclick="dakai();" />&nbsp;<input id="t1" type="button" value="审批" />&nbsp;<INPUT onclick=" javascript:history.back()" type=button value=返回 name=FLOWLEADShow> 
+</P>
+	</div></center>
+</BODY>
+</HTML>

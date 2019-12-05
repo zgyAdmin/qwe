@@ -1,0 +1,183 @@
+
+<HTML><HEAD><TITLE>选择物资</TITLE>
+<META http-equiv=Content-Language content=zh-cn>
+<META http-equiv=Content-Type content="text/html; charset=utf-8">
+<META content="MSHTML 6.00.2900.5626" name=GENERATOR>
+<META content=FrontPage.Editor.Document name=ProgId><LINK 
+href="css/style.css" rel=stylesheet>
+<script src="../jquery-easyui-1.5.1/jquery.min.js" charset="utf-8"></script>
+<!-- easyui依赖的js -->
+<script src="../jquery-easyui-1.5.1/jquery.easyui.min.js" charset="utf-8"></script>
+<!--引用对应的语言包 -->
+<script src="../jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+<!-- 引用图标样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/icon.css">
+<!-- 引用默认的样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/default/easyui.css">
+
+<SCRIPT language=JAVASCRIPT>
+ function delCheckbox(){
+  	var objCheckbox = document.getElementsByName("p_orderno");
+	var count=0;
+	for(var i=0;i<objCheckbox.length;i++){
+		if(objCheckbox[i].checked){
+			count++;
+			var obj=document.getElementById("table1");
+			obj.deleteRow(i+1);
+		}
+	}
+	if(count==0){
+		alert("请选择一条要删除的数据。");
+	}
+  }
+  
+  function productX() 
+  {
+  		window.open("wangyeduihakuang.htm","Canny1","toolbar=0,location=0,status=0,menubar=0,scrollbars=0,width=600,height=440,left=100,top=60");
+      
+  }
+  
+  $(function(){
+	  var i = 0;
+	 $('.a').click(function(){
+		 i++;
+		 var id = $(this).attr("id");
+		 $.ajax({
+			 url:'/selectOne?id='+id,
+			 method:'post',
+			 success:function(node){
+				 $('#table1').append(
+						 '<tr class="T2"><td align=center><input type="checkbox" name="checkboxs" checked="false"></td><td align=center>'+i+'</td><td align=center>'+node.materialNum+'</td><td align=center>'+node.materialName+'</td><td><input type="hidden" name="id" value='+node.id+'><input type="hidden" name="materialName" value='+node.materialName+'><input type="hidden" name="materialUnit" value='+node.materialUnit+'><input type="hidden" name="materialNum" value='+node.materialNum+'></td></tr>');
+			 }
+		 })
+	 	
+	 })
+  })
+
+  
+  function checkbox(){
+	  var list = [];
+      var check=$("input[name='checkboxs']:checked");//选中的复选框
+		check.each(function(){
+			var row=$(this).parent("td").parent("tr");
+			var materialName=row.find("[name='materialName']").val();//注意html()和val()
+			var id=row.find("[name='id']").val();
+			var materialUnit=row.find("[name='materialUnit']").val();
+			var materialNum=row.find("[name='materialNum']").val();
+			//console.info(materialName+""+id+""+materialUnit+""+materialNum);
+			var material = {"id":id,"materialName":materialName,"materialUnit":materialUnit,"materialNum":materialNum}
+			list.push(material);
+			console.log(JSON.stringify(material));
+		});
+		$.ajax({
+			url:'/selectMaterials',
+			method:'post',
+			contentType : "application/json;charsetset=UTF-8",//必须
+			data:JSON.stringify(list),
+			success:function(data){
+				$(location).attr("href","one?id="+data);
+			}
+		})
+  }
+</SCRIPT>
+
+<FORM name=form action=Order_newform.asp method=post 
+encType=multipart/form-data></HEAD>
+<BODY>
+<CENTER>
+<TABLE width="90%" align=center border=0>
+  <TBODY>
+  <TR>
+    <TD align=middle><FONT 
+  color=red>选择物资</FONT>====&gt;录入需求计划====&gt;需求计划确认</TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=1 cellPadding=0 width="100%" bgColor=#ffffff 
+borderColorLight=#ffffff border=0>
+  <TBODY>
+  <tr>
+  	<td>
+		<div align="center">
+			<FONT color=#000064>◆&nbsp;</FONT><FONT color=#000064>首页 
+			上一页</FONT>&nbsp;<A 
+			href="#"><FONT 
+			color=#0000be>下一页</FONT></A>&nbsp;<A 
+			href="#"><FONT 
+			color=#0000be>尾页</FONT></A><FONT color=#000064>&nbsp;共 40 个需求计划 每页10 
+			个需求计划</FONT><FONT color=#000064>&nbsp;页次:<FONT 
+			color=blue>1</FONT>/4页</FONT><FONT color=#000064>&nbsp;◆&nbsp;</FONT> 
+		</div>
+	</td>
+  </tr>
+  <tr>
+  	<td>
+    	<div>
+        	<TABLE style="LINE-HEIGHT: 30px" cellSpacing=1 cellPadding=0     width="100%"  bgColor=#336699 borderColorLight=#006699 border=0>
+                <tr>
+                <td>
+                 <form id="form" action="/selectMaterials" method="post">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%" id="table1">
+           
+                <center>
+                    <tr  class="T1">
+                    <td nowrap align="center">选择</td>
+                    <td nowrap align="center">序号</td>
+                    <td nowrap align="center">产品编码</td>
+                    <td nowrap align="center">产品名称</td>
+                    </tr>
+                </table>
+                                </form>
+                
+                </td></tr></table>
+                <div align="center">
+               请先选择物资，然后点击：<A 
+         id="submit"><FONT 
+            size=3>
+            <input type="button" onclick="checkbox()" value="下一步"/>
+            <buttom>
+			</div>
+				
+
+                
+        </div>
+    </td>
+  </tr>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=1 cellPadding=3 width="100%" border=0>
+        <TBODY>
+        <TR bgColor=#99ccff>
+          <TD colSpan=2><A href="javascript: productX()"><B>晶振 
+            W64</B></A> </TD></TR>
+        <TR bgColor=#ffffff th:each="list:${list}" th:if="${list.materialType=='W000-W64'}">
+          <TD>　 <A href="#" class="a" th:id="${list.id}" th:text="'【'+${list.materialName}+'】'+'【'+${list.materialType}+''+${list.id}+'】'"></A>
+           </TD>
+          <TD><BR></TD></TR>
+        <TR bgColor=#99ccff>
+          <TD colSpan=2><A href="#"><B>发光器件 
+            W61</B></A> </TD></TR>
+        <TR bgColor=#ffffff th:each="list:${list}" th:if="${list.materialType=='W000-W61'}">
+          <TD>　 <A href="#" class="a" th:id="${list.id}" th:text="'【'+${list.materialName}+'】'+'【'+${list.materialType}+''+${list.id}+'】'"></A> 
+</TD>
+        <TR bgColor=#99ccff>
+          <TD colSpan=2><A href="#"><B>金属模电阻 
+            W40</B></A> </TD></TR>
+        <TR bgColor=#ffffff th:each="list:${list}" th:if="${list.materialType=='W000-W40'}">
+          <TD>　 <A href="#" class="a" th:id="${list.id}" th:text="'【'+${list.materialName}+'】'+'【'+${list.materialType}+''+${list.id}+'】'"></A> </TD></TR>
+        <TR bgColor=#99ccff>
+          <TD colSpan=2><A href="#)"><B>线绕电阻
+            W41</B></A> </TD></TR>
+        <TR bgColor=#ffffff th:each="list:${list}" th:if="${list.materialType=='W000-W41'}">
+           <TD>　 <A href="#" class="a" th:id="${list.id}" th:text="'【'+${list.materialName}+'】'+'【'+${list.materialType}+''+${list.id}+'】'"></A> </TD></TR>
+        </TD></TR>
+        <TR bgColor=#99ccff>
+          <TD colSpan=2><A href="#)"><B>二级管
+            W60</B></A> </TD></TR>
+        <TR bgColor=#ffffff th:each="list:${list}" th:if="${list.materialType=='W000-W60'}">
+          <TD>　 <A href="#" class="a" th:id="${list.id}" th:text="'【'+${list.materialName}+'】'+'【'+${list.materialType}+''+${list.id}+'】'"></A> </TD></TR>
+        </TR>
+        <TR bgColor=#99ccff>
+          <TD colSpan=2><A href="#)"><B>三级管
+            W62</B></A> </TD></TR>
+        <TR bgColor=#ffffff th:each="list:${list}" th:if="${list.materialType=='W000-W62'}">
+          	<TD>　 <A href="#" class="a" th:id="${list.id}" th:text="'【'+${list.materialName}+'】'+'【'+${list.materialType}+''+${list.id}+'】'"></A> </TD>
+          </TR>
+        </TBODY></TABLE></TD></TR></TBODY></TABLE></FORM></CENTER></BODY></HTML>

@@ -1,0 +1,313 @@
+<HTML>
+	<HEAD>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+
+		<link type="text/css" rel="stylesheet" href="js/xtree.css" />
+		<script language="javascript" src="js/xtree.js"></script>
+		<script language="javascript" src="js/radioTreeItem.js"></script>
+
+		<script type="text/javascript">
+			webFXTreeConfig.setImagePath("js/images/");
+			var tree = new WebFXTree("务资采购电子商务系统");
+			
+			var tree01 = new WebFXTreeItem("计划员","javascript:mainRequire01()");
+			
+	//-------------------------------------计划员------------------------------------------------------------------//
+			var tIterm1 = new WebFXTreeItem("业务处理","javascript:",tree01);
+			
+			
+			var tIterm101 = new WebFXTreeItem("需求计划处理","javascript: mainRequire01()",tIterm1);
+			var iterm101 = new WebFXTreeItem("需求计划录入","javascript: pclassSelect01()",tIterm101);
+			/**
+			var iterm102 = new WebFXTreeItem("需求计划确认","javascript: orderWtbList()",tIterm101);
+			*/
+			var iterm103 = new WebFXTreeItem("需求计划查询","javascript: orderYtbList()",tIterm101);
+			
+			var tIterm102 = new WebFXTreeItem("编制采购计划","javascript: ",tIterm1);
+			var iterm201 = new WebFXTreeItem("制造中心采购计划编制","javascript:orderWbxjfaList()",tIterm102);
+			
+			var tIterm103 = new WebFXTreeItem("采购计划管理","javascript: updateProduct()",tIterm1);
+			var iterm301 = new WebFXTreeItem("采购计划查询","javascript:projectList()",tIterm103);
+			/**
+			var iterm302 = new WebFXTreeItem("采购计划报批","javascript:projectList2()",tIterm103);
+			*/
+			var iterm304 = new WebFXTreeItem("采购计划下达","javascript:projectList4()",tIterm103);
+			var iterm303 = new WebFXTreeItem("未通过审批采购计划","javascript:projectListx()",tIterm103);
+			/**
+			var iterm305 = new WebFXTreeItem("采购计划修改与删除","javascript:projectList5()",tIterm103);
+			*/
+			/*
+			var tIterm104 = new WebFXTreeItem("合同申请审批","javascript: ",tIterm1);
+			*/
+			var tIterm2 = new WebFXTreeItem("供应商","javascript:",tIterm1);
+			var tIterm201 = new WebFXTreeItem("供应商基本信息查询","javascript: providerCx()",tIterm2);
+			var tIterm201 = new WebFXTreeItem("供应商产品类别管理","javascript: category()",tIterm2);
+			var tIterm202 = new WebFXTreeItem("添加供应商","javascript: addSupply()",tIterm2);
+			
+			
+		
+		function mainRequire01(){
+			 window.parent.main.location="planman/mainRequire.html";
+		}
+		
+		function pclassSelect01(){
+			window.parent.main.location="planman/pclass_select.html";
+		}
+		
+		function orderWtbList(){
+			window.parent.main.location="planman/Order_wtb_list.htm";
+		}
+		
+		function orderYtbList(){
+			window.parent.main.location="planman/Order_ytb_list.htm";	
+		}
+		
+		
+		function orderWbxjfaList(){
+			window.parent.main.location="planman/Order_wbxjfa_list.htm";
+		}
+		
+		function projectList(){
+			window.parent.main.location="planman/Project_list.htm";
+		}
+		
+		function projectList2(){
+			window.parent.main.location="planman/Project_list2.htm";
+		}
+		
+		function projectListx(){
+			window.parent.main.location="planman/Project_list3.htm";
+		}
+		
+		function projectList4(){
+			window.parent.main.location="planman/Project_list4.htm";
+		}
+		
+		function projectList5(){
+			window.parent.main.location="planman/Project_list5.htm";
+		}
+		
+		function providerCx(){
+			window.parent.main.location="planman/provider_cx.htm";
+		}
+		
+		function applyExam(){
+			window.parent.main.location="planman/Apply_Exam.htm";
+		}
+		
+		function addSupply(){
+			window.parent.main.location="planman/supply.html";
+		}
+		
+		function category(){
+			window.parent.main.location="planman/category.html";
+		}
+	
+	     //----------------------end----------------------//
+		
+						
+	        var tree02 = new WebFXTreeItem("供应商平台","javascript:mainRequire()");
+		//----------------------------------------------------------------------供应商----------------------------------------------------//
+			var treesupply = new WebFXTree("供应商的信息维护",tree02);
+	        var tIterm0 = new WebFXTreeItem("供应商的信息查看","javascript:mainRequire1()",tree02);
+			var tIterm1 = new WebFXTreeItem("修改登录密码","javascript:pclassSelect()",tree02);
+			var tIterm2 = new WebFXTreeItem("供应商产品的维护","javascript:proSelect()",tree02);
+			var tIterm101 = new WebFXTreeItem("产品类别的维护","javascript: MaterialQuery()",tree02);
+			var iterm102 = new WebFXTreeItem("报价维护","javascript: projectList2()",tree02);
+			var iterm103 = new WebFXTreeItem("询价书报价","javascript: projectList3()",tree02);
+			var iterm103 = new WebFXTreeItem("报价历史记录","javascript: projectList3()",treesupply);
+			var iterm104 = new WebFXTreeItem("合同查询","javascript: ProviderConsignment()",tree02);
+		
+		function mainRequire1(){
+			 window.parent.main.location="supplyman/jiffprov_look.htm";
+		}
+		
+		function pclassSelect(){
+			window.parent.main.location="supplyman/ProviderContract.html";
+		}
+		
+		function MaterialQuery(){
+			window.parent.main.location="supplyman/category.html";
+		}
+		
+		function projectList3(){
+			window.parent.main.location="supplyman/Order_wbxjfa_list.html";
+		}
+
+		function proSelect(){
+			window.parent.main.location="supplyman/proSelect.html";
+		}
+		
+		
+		function projectList2(){
+			window.parent.main.location="supplyman/Project_list.htm";
+		}
+		
+		function ProviderConsignment(){
+			window.parent.main.location="supplyman/ProviderConsignment.html";
+		}
+		//----------------------------------------------------------------------end----------------------------------------------------//
+			//---------------------审批strat
+			var stocktIterm1 = new WebFXTreeItem("财务部长业务处理","javascript:#");
+						
+			
+			var iterm201 = new WebFXTreeItem("待审批合同申请","javascript: daipi()",stocktIterm1);
+			var iterm202 = new WebFXTreeItem("待审批采购计划","javascript: daipi()",stocktIterm1);
+
+			var stocktIterm2 = new WebFXTreeItem("计划部长业务处理","javascript:#");
+			
+			var iterm301 = new WebFXTreeItem("待审批合同申请","javascript: shenpi()",stocktIterm2);
+			var iterm302 = new WebFXTreeItem("待审批采购计划","javascript: daipi()",stocktIterm2);
+
+
+			var stocktIterm3 = new WebFXTreeItem("厂长业务处理","javascript:#");
+			
+			var iterm401 = new WebFXTreeItem("待审批合同申请","javascript: changzhang()",stocktIterm3);
+				//---------------------审批end
+			var tree03 = new WebFXTreeItem("合同管理","javascript:#");
+			//----------------------------------------------------------------------合同管理----------------------------------------------------//
+			var stocktIterm0 = new WebFXTreeItem("采购员业务处理","javascript:#",tree03);
+			
+			
+			var stocktIterm101 = new WebFXTreeItem("编制合同申请","javascript: #",stocktIterm0);
+			var iterm101 = new WebFXTreeItem("编制合同申请","javascript: apply_zw()",stocktIterm101);
+			var iterm102 = new WebFXTreeItem("确认合同申请","javascript: affirmPact()",stocktIterm101);
+			var iterm103 = new WebFXTreeItem("查询合同申请及报批","javascript: queryPact_qq()",stocktIterm101);
+			var iterm104 = new WebFXTreeItem("未通过合同申请(可删除)","javascript: callbackPact()",stocktIterm101);
+			
+			var stocktIterm103 = new WebFXTreeItem("合同申请维护","javascript: #",stocktIterm0);
+			var iterm3011 = new WebFXTreeItem("编制合同","javascript:bianzhi()",stocktIterm103);
+			var iterm3012 = new WebFXTreeItem("确认合同","javascript:queren()",stocktIterm103);
+			var iterm3014 = new WebFXTreeItem("维护合同","javascript:weihu()",stocktIterm103);
+			var iterm3015 = new WebFXTreeItem("合同归档","javascript:guidang()",stocktIterm103);
+
+			
+						
+			
+		function guidang(){
+			window.parent.main.location="contractmanager/guidanghetong.htm";
+		}
+
+		function weihu(){
+			window.parent.main.location="contractmanager/keweihuhetong.htm";
+		}
+
+		function queren(){
+			window.parent.main.location="contractmanager/querenhetong.htm";
+		}
+
+		function bianzhi(){
+			window.parent.main.location="contractmanager/bianzhilist.htm";
+		}
+
+		function luru(){
+			window.parent.main.location="contractmanager/contract_view.htm";
+		}
+
+		function changzhang(){
+			window.parent.main.location="contractmanager/Apply_daishen.htm";
+		}
+
+		function shenpi(){
+			window.parent.main.location="contractmanager/Apply_daishenjihua.htm";
+		}
+
+		function daipi(){
+			window.parent.main.location="contractmanager/Apply_daishencaiwu.htm";
+		}
+
+		function apply_zw(){
+			window.parent.main.location="contractmanager/jieshilist.html";
+		}
+		
+		function pactApplyList(){
+			window.parent.main.location="contractmanager/Apply_list.htm";
+		}
+		
+		function pactUpdate(){
+			window.parent.main.location="contractmanager/Apply_update.htm";
+		}
+		
+		function callbackPact(){
+			window.parent.main.location="contractmanager/Apply_kehuishou.htm";	
+		}
+		
+		function queryPact_qq(){
+			//window.parent.main.location="contractmanager/Apply_chaxun.htm";
+			window.parent.main.location="contractmanager/Apply_querenList.htm";
+		}
+		
+		function affirmPact(){
+			window.parent.main.location="contractmanager/Apply_queren.htm";
+		}
+
+			
+			//----------------------------------------------------------------------end----------------------------------------------------//
+			
+			var tree04 = new WebFXTreeItem("采购员的询价与报价","javascript:#");//------------------------------------------------------------------采购员的询价与报价----------------------------------------------------//
+		
+			var querytIterm1 = new WebFXTreeItem("询价书业务处理","javascript:#",tree04);
+			
+			
+			var querytIterm101 = new WebFXTreeItem("编制询价书","javascript: #",querytIterm1);
+			var queryiterm101 = new WebFXTreeItem("编制询价书","javascript: apply()",querytIterm101);
+			var iterm103 = new WebFXTreeItem("询价书列表","javascript: queryPact()",querytIterm101);
+			
+			/**
+			var tIterm102 = new WebFXTreeItem("询价书维护","javascript: #",querytIterm1);
+			var iterm201 = new WebFXTreeItem("可维护的询价书列表","javascript: apply1()" ,tIterm102);
+			*/
+		
+			var querytIterm2 = new WebFXTreeItem("报价书业务处理","javascript:#");
+			var tIterm101 = new WebFXTreeItem("报价书查询","javascript: #",querytIterm2);
+			/*
+			var iterm201 = new WebFXTreeItem("报价的供应商列表","javascript: pactApplyList()" ,querytIterm101);
+			*/
+			function mainRequire(){
+			 window.parent.main.location="queryandqueto/mainRequire.html";
+		}
+
+		function apply(){
+			window.parent.main.location="queryandqueto/Project_list.htm";
+		}
+		
+		function pactApplyList(){
+			window.parent.main.location="queryandqueto/Project_list33.htm";
+		}
+
+		function queryPact(){
+			window.parent.main.location="queryandqueto/ask1.html";
+		}
+		function apply1(){
+			window.parent.main.location="queryandqueto/Project_list22.htm";
+		}
+			
+//----------------------------------------------------------------------end----------------------------------------------------//
+		
+			
+			
+		//-------------------------------------------------------------//
+			tree.add(tree02);
+			tree.add(tree01);
+			tree.add(tree03);
+			tree.add(tree04);
+			tree.add(stocktIterm1);	
+			tree.add(stocktIterm2);	
+			tree.add(stocktIterm3);	
+			document.write(tree);
+			tree.expand();
+		</script>
+
+		</HEAD>
+
+
+	<BODY style="cursor: default; background: #e7f3ff;" text=#000000
+		leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+</BODY>
+</HTML>
+
+
+
+
+

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../jquery-easyui-1.5.1/jquery.min.js" charset="utf-8"></script>
+<!-- easyui依赖的js -->
+<script src="../jquery-easyui-1.5.1/jquery.easyui.min.js" charset="utf-8"></script>
+<!--引用对应的语言包 -->
+<script src="../jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+<!-- 引用图标样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/icon.css">
+<!-- 引用默认的样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/default/easyui.css">
+</head>
+<script type="text/javascript">
+$(function(){
+	//初始化数据表格
+	$("#tt").datagrid({
+			toolbar: [
+				{
+					text:'状态：<select id="12"><option value="">全部</option><option value="C001-70">未发布</option><option value="C001-100">以揭示</option><option value="C001-90">已截止</option><option value="C001-80">已发布</option></select>'	
+				}
+				,'-',
+				{
+					text:'搜索',
+					iconCls: 'icon-search',
+					handler: function(){
+						var status = $("#12").val();
+						$.ajax({
+							url:'/selectEns',
+							method:'get',
+							data:{
+								status:status
+							},
+							success:function(){
+								$('#tt').datagrid({                                                  
+									queryParams: {
+										status:$("#12").val()
+									}
+								});
+							}
+						})
+					}
+				}
+			]
+			,
+		 columns:[
+			 [
+				 {
+					 title:'操作',
+					 width:50,
+					 field:'cz',
+					 formatter: function (value, row, index) {
+						return '<input type="radio" name="radio"/>' 
+                    }
+				 },
+				 {
+					 title:'序号',
+					 field:'id',
+					 width:100,
+					 align:'center'
+				 },
+				 {
+					 title:'询价书标题',
+					 field:'enquire_num',
+					 width:300,
+					 align:'center'
+				 },
+				 {
+					 title:'询价提交时间',
+					 field:'submit_date',
+					 width:300,
+					 align:'center',
+					 formatter:function(val,row,index){
+							return val.substr(0,10);
+					}
+				 }
+				 ,
+				 {
+					 title:'询价截至时间',
+					 field:'end_date',
+					 width:234,
+					 align:'center',
+					 formatter:function(val,row,index){
+						return val.substr(0,10);
+					 }
+				 },
+				 {
+					 title:'询价书状态',
+					 field:'status',
+					 width:354,
+					 align:'center',
+					 formatter:function(val,row,index){
+						 if(val=="C001-70"){
+							 return "询价书未发出";
+						 }else if(val=="C001-80"){
+							 return "询价书已发出";
+						 }else if(val=="C001-90"){
+							 return "询价已截止";
+						 }else if(val=="C001-100"){
+							 return "已揭示报价";
+						 }
+					}
+				 }
+				 ,
+				 {
+					 title:'采购类型',
+					 field:'stock_type',
+					 width:354,
+					 align:'center',
+					 formatter:function(val,row,index){
+						 if(val=="C000-1"){
+							 return "制造中心采购公开求购";
+						 }else{
+							 return "制造中心采购定向询价";
+						 }
+
+					}
+				 }
+			 ]
+		 ],
+		 url:'/selectEns',
+		 method:'get',
+		 pagination:true,//分页工具
+		 pageSize:4,//页面显示几条
+		 pageNumber:1,//显示第一页
+		 pageList:[2,4,6,8]
+	 });
+})
+</script>
+<body>
+	<div id="d1">
+		<table id="tt" class="easyui-datagrid" style="width:1180px;height:auto"
+		title="询价书列表"
+        data-options="fitColumns:true,singleSelect:true">
+	</table>
+	</div>
+</body>
+</html>

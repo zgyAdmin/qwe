@@ -1,0 +1,183 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../jquery-easyui-1.5.1/jquery.min.js" charset="utf-8"></script>
+<!-- easyui依赖的js -->
+<script src="../jquery-easyui-1.5.1/jquery.easyui.min.js" charset="utf-8"></script>
+<!--引用对应的语言包 -->
+<script src="../jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+<!-- 引用图标样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/icon.css">
+<!-- 引用默认的样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/default/easyui.css">
+<script>
+	$(function(){
+		//初始化数据表格
+		$("#tt").datagrid({
+				toolbar: [
+					{
+						text:'报批',
+						iconCls: 'icon-edit',
+						handler: function(){
+							var row = $('#tt').datagrid('getSelected');
+							if (row){
+								$.ajax({
+									url:'updateIdStatus',
+									method:'get',
+									data:{
+										id:row.stock_id,
+										status:'C001-40'
+									},
+									success:function(){
+										$(location).attr("href","/Project");
+									}
+								})
+							}
+						}
+					}
+					,'-',
+					{
+						text:'详情',
+						iconCls: 'icon-help',
+						handler: function(){
+							var row = $('#tt').datagrid('getSelected');
+							if (row){
+								$(location).attr("href","/selectById?id="+row.stock_id);
+							}
+						}
+					}
+					,'-',
+					{
+						text:'返回',
+						iconCls: 'icon-undo',
+						handler: function(){
+						}
+					}
+				]
+				,
+			 columns:[
+				 [
+					 {
+						 title:'操作',
+						 width:50,
+						 field:'cz',
+						 formatter: function (value, row, index) {
+							return '<input type="radio" name="radio"/>' 
+	                    }
+					 },
+					 {
+						 title:'序号',
+						 field:'stock_id',
+						 width:100,
+						 align:'center'
+					 },
+					 {
+						 title:'采购计划名称',
+						 field:'stock_name',
+						 width:300,
+						 align:'center'
+					 },
+					 {
+						 title:'采购类型',
+						 field:'stock_type',
+						 width:300,
+						 align:'center',
+						 formatter:function(val,row,index){
+							 if(val=="C000-1"){
+								 return "制造中心采购公开求购";
+							 }else{
+								 return "制造中心采购定向询价";
+							 }
+						 }
+					 }
+					 ,
+					 {
+						 title:'状态',
+						 field:'status',
+						 width:300,
+						 align:'center',
+						 formatter:function(val,row,index){
+							 if(val=="C001-30"){
+								 return "<font color='red'>未报批<font>";
+							 }else if(val=="C001-40"){
+								 return "<font color='blue'>未审批<font>";
+							 }else if(val=="C001-50"){
+								 return "<font color='blue'>未下达<font>";
+							 }else if(val=="C001-51"){
+								 return "<font color='blue'>审批不通过<font>";
+							 }else if(val=="C001-60"){
+								 return "<font color='blue'>未编询价书<font>";
+							 }else if(val=="C001-70"){
+								 return "<font color='blue'>询价书未发出<font>";
+							 }
+						 }
+					 }
+					 ,
+					 {
+						 title:'采购下达时间',
+						 field:'submit_date',
+						 width:234,
+						 align:'center',
+						 formatter:function(val,row,index){
+							return val.substr(0,10);
+						 }
+					 },
+					 {
+						 title:'对应询价书',
+						 field:'enquire_name',
+						 width:354,
+						 align:'center'
+					 }
+				 ]
+			 ],
+			 url:'/findStock',
+			 method:'get',
+			 queryParams: {
+					status: 'C001-30'
+			},
+			 pagination:true,//分页工具
+			 pageSize:4,//页面显示几条
+			 pageNumber:1,//显示第一页
+			 pageList:[2,4,6,8]
+		 });
+	})
+	$(function(){
+		$("#btn1").click(function(){
+			var row = $('#tt').datagrid('getSelected');
+			if (row){
+				$.ajax({
+					url:'updateIdStatus',
+					method:'get',
+					data:{
+						id:row.stock_id,
+						status:'C001-40'
+					},
+					success:function(){
+						$(location).attr("href","/Project");
+					}
+				})
+			}
+		})
+	})
+	$(function(){
+		$("#btn2").click(function(){
+			var row = $('#tt').datagrid('getSelected');
+			if (row){
+				$(location).attr("href","/selectById?id="+row.stock_id);
+			}
+		})
+	})
+	
+</script>
+</head>
+<body>
+	<div id="d1">
+		<table id="tt" class="easyui-datagrid" style="width:1180px;height:auto"
+		title="采购计划一览表"
+        data-options="fitColumns:true,singleSelect:true">
+	</table>
+	</div>
+	
+</body>
+</html>

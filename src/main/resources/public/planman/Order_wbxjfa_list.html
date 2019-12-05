@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="../jquery-easyui-1.5.1/jquery.min.js" charset="utf-8"></script>
+<!-- easyui依赖的js -->
+<script src="../jquery-easyui-1.5.1/jquery.easyui.min.js" charset="utf-8"></script>
+<!--引用对应的语言包 -->
+<script src="../jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+<!-- 引用图标样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/icon.css">
+<!-- 引用默认的样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/default/easyui.css">
+<title>Insert title here</title>
+<script type="text/javascript">
+//通过js创建easyui控件 通过url属性 远程加载内容
+$(function(){ 
+	//初始化数据表格
+	$("#tt").datagrid({
+		toolbar: [
+			{
+				text:'编制采购计划',
+				iconCls: 'icon-edit',
+				handler: function(){
+					var ids = [];
+					var rows = $('#tt').datagrid('getSelections');
+					for(var i=0; i<rows.length; i++){
+						ids.push(rows[i].order_id);
+					}
+					console.log(ids);
+					$(location).attr("href","/list?ids="+ids);
+				}
+			}
+			,'-',
+			{
+				text:'返回',
+				iconCls: 'icon-undo',
+				handler: function(){
+					
+				}
+			}
+		]
+		,
+		 columns:[
+			 [
+				 {
+					 title:'操作',
+					 width:50,
+					 field:'cz',
+					 checkbox:true
+				 },
+				 {
+					 title:'序号',
+					 field:'id',
+					 width:100,
+					 align:'center',
+					 hidden:true
+				 },
+				 {
+					 title:'物资编码',
+					 field:'material_code',
+					 width:300,
+					 align:'center'
+				 },
+				 {
+					 title:'物资名称',
+					 field:'material_name',
+					 width:300,
+					 align:'center'
+				 }
+				 ,
+				 {
+					 title:'数量',
+					 field:'amount',
+					 width:100,
+					 align:'center'
+				 }
+				 ,
+				 {
+					 title:'预算价格',
+					 field:'unit_price',
+					 width:234,
+					 align:'center'
+				 },
+				 {
+					 title:'需求时间',
+					 field:'start_date',
+					 width:200,
+					 align:'center',
+					 formatter: function (value, row, index) {
+                         return value.substr(0,10).replace("-","/");
+                     }
+				 }
+			 ]
+		 ],
+		 url:'/selectAllByStatus',
+		 method:'get',
+		 pagination:true,//分页工具
+		 pageSize:4,//页面显示几条
+		 pageNumber:1,//显示第一页
+		 pageList:[2,4,6,8]
+	 });
+	
+	$("#b1").click(function(){
+		var ids = [];
+		var rows = $('#tt').datagrid('getSelections');
+		for(var i=0; i<rows.length; i++){
+			ids.push(rows[i].order_id);
+		}
+		console.log(ids);
+		$(location).attr("href","/list?ids="+ids);
+	})
+})
+</script>
+</head>
+<body>
+	<div>
+		<table id="tt" class="easyui-datagrid" style="width:auto;height:auto"
+           url=""
+           title="未编采购计划的需求一览表" iconCls="icon-tip"
+           rownumbers="true" pagination="true">
+		</table>
+	</div>
+</body>
+</html>

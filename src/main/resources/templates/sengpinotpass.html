@@ -1,0 +1,159 @@
+<!-- saved from url=(0061)http://169.254.158.100/zzdl/ContApply/Apply_list.asp?p_type=3 -->
+<HTML><HEAD><TITLE>待审批合同申请一览表</TITLE>
+</HEAD>
+<meta charset="UTF-8">
+<script src="../jquery-easyui-1.5.1/jquery.min.js" charset="utf-8"></script>
+<!-- easyui依赖的js -->
+<script src="../jquery-easyui-1.5.1/jquery.easyui.min.js" charset="utf-8"></script>
+<!--引用对应的语言包 -->
+<script src="../jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+<!-- 引用图标样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/icon.css">
+<!-- 引用默认的样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/default/easyui.css">
+<script type="text/javascript">
+$(function(){
+	//初始化数据表格
+	$("#tt").datagrid({
+		toolbar: [
+			{
+				text:'详细',
+				iconCls: 'icon-edit',
+				handler: function(){
+					var row = $('#tt').datagrid('getSelected');
+					if (row){
+						$(location).attr("href","/selectById?id="+row.stock_id);
+					}
+				}
+			}
+			,'-',
+			{
+				text:'修改',
+				iconCls: 'icon-print',
+				handler: function(){
+					var row = $('#tt').datagrid('getSelected');
+					if (row){
+						$(location).attr("href","/selectById2?id="+row.stock_id);
+					}
+				}
+			}
+			,'-',
+			{
+				text:'删除',
+				iconCls: 'icon-no',
+				handler: function(){
+					 var row = $('#tt').datagrid('getSelected');
+			   			if (row){
+			   				$(location).attr("href","/deletes?id="+row.stock_id);
+			   			}
+				}
+			}
+		]
+		,
+		 columns:[
+			 [
+				 {
+					 title:'操作',
+					 width:50,
+					 field:'cz',
+					 formatter: function (value, row, index) {
+						return '<input type="radio" name="radio"/>' 
+                    }
+				 },
+				 {
+					 title:'序号',
+					 field:'stock_id',
+					 width:100,
+					 align:'center'
+				 },
+				 {
+					 title:'采购计划名称',
+					 field:'stock_name',
+					 width:300,
+					 align:'center'
+				 },
+				 {
+					 title:'采购类型',
+					 field:'stock_type',
+					 width:300,
+					 align:'center',
+					 formatter:function(val,row,index){
+							 return "<font>制造中心采购公开求购<font>";
+					 }
+				 }
+				 ,
+				 {
+					 title:'采购进度',
+					 field:'status',
+					 width:300,
+					 align:'center',
+					 formatter:function(val,row,index){
+						 return "<font color='red'>废弃<font>";
+				 	}
+				 }
+				 ,
+				 {
+					 title:'采购下达时间时间',
+					 field:'submit_date',
+					 width:234,
+					 align:'center',
+					 formatter:function(val,row,index){
+						 if(val!=null){
+							 return val.substr(0,10);
+						 }
+						return "";
+					 }
+				 },{
+					 title:'审批人',
+					 field:'leader',
+					 width:234,
+					 align:'center'
+				 }
+			 ]
+		 ],
+		 url:'/findByIdStock',
+		 method:'get',
+		 queryParams: {
+				status: 'C001-51'
+			},
+		 pagination:true,//分页工具
+		 pageSize:4,//页面显示几条
+		 pageNumber:1,//显示第一页
+		 pageList:[2,4,6,8]
+	 });
+})
+	$(function(){
+		$("#btn1").click(function(){
+			var row = $('#tt').datagrid('getSelected');
+			if (row){
+				$(location).attr("href","/selectById?id="+row.stock_id);
+			}
+		})
+	})
+	$(function(){
+		$("#btn2").click(function(){
+			var row = $('#tt').datagrid('getSelected');
+			if (row){
+				$(location).attr("href","/selectById2?id="+row.stock_id);
+			}
+		})
+	})
+	//删除
+      $(function(){
+    	   $("#btn3").click(function(){
+    		   var row = $('#tt').datagrid('getSelected');
+	   			if (row){
+	   				$(location).attr("href","/deletes?id="+row.stock_id);
+	   			}
+    	  })
+      })
+</script>
+<BODY>
+	<div id="d1">
+		<table id="tt" class="easyui-datagrid" style="width:1180px;height:auto"
+        title="未下达采购计划一览表 " data-options="fitColumns:true,singleSelect:true">
+	</table>
+
+	</div>
+</BODY>
+</HTML>

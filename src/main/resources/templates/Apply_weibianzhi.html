@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../jquery-easyui-1.5.1/jquery.min.js" charset="utf-8"></script>
+<!-- easyui依赖的js -->
+<script src="../jquery-easyui-1.5.1/jquery.easyui.min.js" charset="utf-8"></script>
+<!--引用对应的语言包 -->
+<script src="../jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+<!-- 引用图标样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/icon.css">
+<!-- 引用默认的样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/default/easyui.css">
+</head>
+<script type="text/javascript">
+$(function(){
+	//初始化数据表格
+	$("#tt").datagrid({
+			toolbar: [
+				{
+					text:'编制',
+					iconCls: 'icon-edit',
+					handler: function(){
+						var row = $('#tt').datagrid('getSelected');
+						if(row==false){
+							alert(123);
+						}
+						if (row){
+							$(location).attr("href","/ordersCai?id="+row.stock_id);
+						}
+					}
+				}
+				,'-',
+				{
+					text:'返回',
+					iconCls: 'icon-undo'
+				}
+				,'-',
+				{
+					text:'采购计划名称:<input type="text"/>'
+				}
+				,'-',
+				{
+					text:'物资名称:<input type="text"/>'
+				}
+				,'-',
+				{
+					text:'采购类型:<select><option value="全部">全部</option><option value="定向求购">定向求购</option><option value="公开求购">公开求购</option></select>'
+				}
+				,'-',
+				{
+					text:'搜索',
+					iconCls: 'icon-search'
+				}
+			]
+			,
+		 columns:[
+			 [
+				 {
+					 title:'操作',
+					 width:50,
+					 field:'cz',
+					 formatter: function (value, row, index) {
+						return '<input type="radio" name="radio"/>' 
+                    }
+				 },
+				 {
+					 title:'序号',
+					 field:'stock_id',
+					 width:100,
+					 align:'center'
+				 },
+				 {
+					 title:'采购计划名称',
+					 field:'stock_name',
+					 width:300,
+					 align:'center'
+				 },
+				 {
+					 title:'采购类型',
+					 field:'stock_type',
+					 width:300,
+					 align:'center',
+					 formatter:function(val,row,index){
+						 if(val=="C000-1"){
+							 return "制造中心采购公开求购";
+						 }else{
+							 return "制造中心采购定向询价";
+						 }
+					 }
+				 }
+				 ,
+				 {
+					 title:'采购下达时间',
+					 field:'submit_date',
+					 width:234,
+					 align:'center',
+					 formatter:function(val,row,index){
+						return val.substr(0,10);
+					 }
+				 },
+				 {
+					 title:'计划报价时间',
+					 field:'start_date',
+					 width:354,
+					 align:'center',
+					 formatter:function(val,row,index){
+						return "";
+					}
+				 }
+			 ]
+		 ],
+		 url:'/nuToCompile',
+		 method:'get',
+		 queryParams: {
+				status: 'C001-60'
+		},
+		 pagination:true,//分页工具
+		 pageSize:4,//页面显示几条
+		 pageNumber:1,//显示第一页
+		 pageList:[2,4,6,8]
+	 });
+})
+</script>
+<body>
+	<div id="d1">
+		<table id="tt" class="easyui-datagrid" style="width:1180px;height:auto"
+		title="采购计划一览表"
+        data-options="fitColumns:true,singleSelect:true">
+	</table>
+	</div>
+</body>
+</html>

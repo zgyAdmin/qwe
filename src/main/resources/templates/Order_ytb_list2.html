@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="../jquery-easyui-1.5.1/jquery.min.js" charset="utf-8"></script>
+<!-- easyui依赖的js -->
+<script src="../jquery-easyui-1.5.1/jquery.easyui.min.js" charset="utf-8"></script>
+<!--引用对应的语言包 -->
+<script src="../jquery-easyui-1.5.1/locale/easyui-lang-zh_CN.js" charset="utf-8"></script>
+<!-- 引用图标样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/icon.css">
+<!-- 引用默认的样式 -->
+<link rel="stylesheet" href="../jquery-easyui-1.5.1/themes/default/easyui.css">
+<title>需求计划一览表</title>
+<script type="text/javascript">
+//通过js创建easyui控件 通过url属性 远程加载内容
+$(function(){ 
+	//初始化数据表格
+	$("#tt").datagrid({
+		toolbar: [
+			{
+				text:'确认',
+				iconCls: 'icon-edit',
+				handler: function(){
+					var ids = [];
+					var flag = false;
+					var rows = $('#tt').datagrid('getSelections');
+					for(var i=0; i<rows.length; i++){
+						ids.push(rows[i].id);
+						if(rows[i].status=="C001-10"){
+							flag = true;
+						}
+					}
+					//alert(flag);
+					if(flag){
+						console.log(ids);
+						$.ajax({
+							url:'/updateIdMapper',
+							method:'post',
+							data:JSON.stringify(ids),
+							contentType : "application/json;charsetset=UTF-8",//必须
+							success:function(){
+								$('#tt').datagrid('reload');  
+							}
+						})
+					}else{
+						alert("状态为确认的不能录入");	
+					}
+					
+				}
+			}
+			,'-',
+			{
+				text:'详情',
+				iconCls: 'icon-print',
+				handler: function(){
+					var row = $('#tt').datagrid('getSelected');
+					if (row){
+						$(location).attr("href","/jump?id="+row.id);
+					}
+				}
+			}
+			,'-',
+			{
+				text:'修改',
+				iconCls: 'icon-save',
+				handler: function(){
+					var row = $('#tt').datagrid('getSelected');
+					if (row){
+						$(location).attr("href","/toupdate?id="+row.id);
+					}
+				}
+			}
+			,'-',
+			{
+				text:'删除',
+				iconCls: 'icon-no',
+				handler: function(){
+					var ids = [];
+					var flag = false;
+					var rows = $('#tt').datagrid('getSelections');
+					for(var i=0; i<rows.length; i++){
+						ids.push(rows[i].order_id);
+						if(rows[i].status=="C001-10"){
+							flag = true;
+						}
+					}
+					if(flag){
+						console.log(ids);
+						$.ajax({
+							url:'/delete',
+							method:'post',
+							data:JSON.stringify(ids),
+							contentType : "application/json;charsetset=UTF-8",//必须
+							
+						})
+					}else{
+						alert("状态为确认不能删除");
+					}
+				}
+			}
+			,'-',
+			{
+				text:'物资编码:<input type="text" id="Code">',
+			}
+			,'-',
+			{
+				text:'物资名称:<input type="text" id="Name">',
+			}
+			,'-',
+			{
+				text:'状态:<select id="Status"><option value="C001">全部</option><option value="C001-10">未确认</option><option value="C001-20">确认</option></select>',
+			}
+			,'-',
+			{
+				text:'搜索',
+				iconCls: 'icon-search',
+				handler: function(){
+					$.ajax({
+						url:'/selectAlls',
+						method:'get',
+						data:{
+							code:$("#Code").val(),
+							name:$("#Name").val(),
+							status:$("#Status").val()
+						},
+						success:function(){
+							$('#tt').datagrid({                                                  
+								queryParams: {
+									name: $("#Name").val(),
+									code:$("#Code").val(),
+									status:$("#Status").val()
+								}
+							});
+						}
+					})
+				}
+			}
+		]
+		,
+		 columns:[
+			 [
+				 {
+					 title:'操作',
+					 width:50,
+					 field:'cz',
+					 checkbox:true
+				 },
+				 {
+					 title:'序号',
+					 field:'id',
+					 width:100,
+					 align:'center',
+					 hidden:true
+				 },
+				 {
+					 title:'物资代码',
+					 field:'material_code',
+					 width:300,
+					 align:'center'
+				 },
+				 {
+					 title:'物资名称',
+					 field:'material_name',
+					 width:300,
+					 align:'center'
+				 }
+				 ,
+				 {
+					 title:'数量',
+					 field:'amount',
+					 width:300,
+					 align:'center'
+				 }
+				 ,
+				 {
+					 title:'采购进度',
+					 field:'status',
+					 width:234,
+					 align:'center',
+					 formatter:function(val,row,index){
+						 if(val=="C001-10"){
+							 return "未确认";
+						 }else{
+							 return "确认";
+						 }
+					 }
+				 }
+			 ]
+		 ],
+		 url:'/selectAlls',
+		 method:'get',
+		 pagination:true,//分页工具
+		 pageSize:4,//页面显示几条
+		 pageNumber:1,//显示第一页
+		 pageList:[2,4,6,8]
+	 });
+})
+
+
+$(function(){
+	$("#btn1").click(function(){
+		var ids = [];
+		var rows = $('#tt').datagrid('getSelections');
+		for(var i=0; i<rows.length; i++){
+			ids.push(rows[i].id);
+		}
+		console.log(ids);
+		$.ajax({
+			url:'/updateIdMapper',
+			method:'post',
+			data:JSON.stringify(ids),
+			contentType : "application/json;charsetset=UTF-8",//必须
+			success:function(){
+				$('#tt').datagrid('reload');  
+			}
+		})
+	})
+	
+	$("#btn2").click(function(){
+		var row = $('#tt').datagrid('getSelected');
+		if (row){
+			$(location).attr("href","/jump?id="+row.id);
+		}
+	})
+	$("#btn3").click(function(){
+		alert("删除");
+		var ids = [];
+		var rows = $('#tt').datagrid('getSelections');
+		for(var i=0; i<rows.length; i++){
+			ids.push(rows[i].order_id);
+		}
+		console.log(ids);
+		$.ajax({
+			url:'/delete',
+			method:'post',
+			data:JSON.stringify(ids),
+			contentType : "application/json;charsetset=UTF-8",//必须
+			
+		})
+	})
+	$(function(){
+		$("#standardQueryBtn").click(function(){
+			$.ajax({
+				url:'/selectAlls',
+				method:'get',
+				data:{
+					code:$("#Code").val(),
+					name:$("#Name").val(),
+					status:$("#Status").val()
+				},
+				success:function(){
+					$('#tt').datagrid({                                                  
+						queryParams: {
+							name: $("#Name").val(),
+							code:$("#Code").val(),
+							status:$("#Status").val()
+						}
+					});
+				}
+			})
+		})
+	})
+	$(function(){
+		$("#update").click(function(){
+			var row = $('#tt').datagrid('getSelected');
+			if (row){
+				$(location).attr("href","/toupdate?id="+row.id);
+			}
+		})
+	})
+})
+</script>
+</head>
+<body>
+	<div id="d1">
+		<table id="tt" class="easyui-datagrid" style="width:auto;height:auto"
+           url=""
+           title="需求计划一览表" iconCls="icon-tip"
+           rownumbers="true" pagination="true">
+		</table>
+	</div>
+</body>
+</html>

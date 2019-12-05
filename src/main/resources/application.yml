@@ -1,0 +1,53 @@
+spring:
+  thymeleaf:
+    cache: false
+  devtools:
+    restart:
+      exclude: /static/**,/templates/**
+  datasource:
+    druid:
+      
+      #JDBC四要素
+      url: jdbc:mysql://localhost:3306/purchase?serverTimezone=UTC
+      #用户名
+      username: root
+      #加密后的密码
+      password: 1234
+      driver-class-name: com.mysql.jdbc.Driver
+      
+       #数据库连接池属性配置
+      #初始化连接数
+      initial-size: 1
+      #最大连接数量
+      max-active: 20
+      #获取连接时最大等待时间
+      max-wait: 10000
+      #最小连接数量
+      min-idle: 1
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+      time-between-eviction-runs-millis: 60000
+      #用来检测连接是否有效的SQL，解决数据库断开连接的问题
+      validation-query: select 1
+      
+---
+mybatis:
+  #类型别名扫描的包
+  type-aliases-package: com.turing.entity
+  configuration:
+    #懒加载相关
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    #最好加上该设置，否则mybatis默认情况下equals,clone,hashCode,toString都会触发懒加载
+    #该属性是个Set集合，需要使用“-”来逐一添加一项或多项配置（数组、List类似）
+    lazy-load-trigger-methods:
+    - ""
+    #映射骆驼命名法
+    map-underscore-to-camel-case: true
+
+#在运行时输出SQL执行日志（MyBatis默认为INFO级别，看不到）
+logging:
+  level:
+    com.turing.mapper: debug
+    
+---
+server:  port: 8083
